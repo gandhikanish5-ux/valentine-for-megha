@@ -20,23 +20,24 @@
     }
     .card {
       background: rgba(255,255,255,0.15);
-      padding: 30px;
+      padding: 28px;
       border-radius: 20px;
       max-width: 360px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.2);
       transition: all 0.5s ease;
+      z-index: 2;
     }
     h1 {
       margin-bottom: 10px;
     }
     p {
-      margin-bottom: 25px;
-      font-size: 1.1em;
+      margin-bottom: 18px;
+      font-size: 1.05em;
     }
     button {
       padding: 12px 24px;
       border-radius: 30px;
-      margin: 0 10px;
+      margin: 8px;
       font-weight: bold;
       border: none;
       cursor: pointer;
@@ -55,36 +56,78 @@
     .hidden {
       display: none;
     }
+
+    /* Falling hearts */
+    .heart {
+      position: fixed;
+      top: -10px;
+      color: #fff;
+      font-size: 18px;
+      animation: fall linear forwards;
+      z-index: 1;
+      pointer-events: none;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
 
+  <!-- MAIN QUESTION -->
   <div class="card" id="question">
     <h1>💖 Megha 💖</h1>
     <p>Will you be my Valentine?</p>
+    <p><small>(Yes, this page has more effort than our first argument 😌)</small></p>
     <button class="yes" onclick="yesAccepted()">YES 💕</button>
     <button class="no" id="noBtn">NO 🙃</button>
   </div>
 
+  <!-- YES PAGE -->
   <div class="card hidden" id="yesPage">
     <h1>🎉 Yayyy! 🎉</h1>
     <p>Megha, it’s officially a date 💖</p>
-    <p>I’ve already told WhatsApp 😌</p>
+    <p>Also… you still owe me momos 🌯😏</p>
+    <button class="yes" onclick="showDetails()">Valentine Plan 💌</button>
+  </div>
+
+  <!-- DETAILS PAGE -->
+  <div class="card hidden" id="detailsPage">
+    <h1>💘 Valentine’s Day 💘</h1>
+    <p><strong>📅 Date:</strong> 14th February</p>
+    <p><strong>⏰ Time:</strong> 7:00 PM</p>
+    <p><strong>📍 Place:</strong> Wherever the food is best</p>
+    <p><strong>🎁 Dress Code:</strong> You look cute anyway 😌</p>
+    <p><small>Redirecting to WhatsApp in 7 seconds… 💬</small></p>
   </div>
 
   <script>
+    // Falling hearts
+    setInterval(() => {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerText = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }, 300);
+
+    // NO button behavior
     let hoverCount = 0;
     const noBtn = document.getElementById("noBtn");
 
     noBtn.addEventListener("mouseover", () => {
       hoverCount++;
-
       if (hoverCount < 4) {
         const x = Math.random() * (window.innerWidth - 120);
         const y = Math.random() * (window.innerHeight - 60);
         noBtn.style.position = "absolute";
-        noBtn.style.left = `${x}px`;
-        noBtn.style.top = `${y}px`;
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
       } else {
         noBtn.innerText = "OK YES 😳💕";
         noBtn.classList.remove("no");
@@ -96,6 +139,11 @@
     function yesAccepted() {
       document.getElementById("question").classList.add("hidden");
       document.getElementById("yesPage").classList.remove("hidden");
+    }
+
+    function showDetails() {
+      document.getElementById("yesPage").classList.add("hidden");
+      document.getElementById("detailsPage").classList.remove("hidden");
 
       const message = encodeURIComponent(
         "YES 💖 I’m your Valentine now 😌💘"
@@ -105,7 +153,7 @@
 
       setTimeout(() => {
         window.open(whatsappURL, "_blank");
-      }, 800);
+      }, 7000);
     }
   </script>
 
