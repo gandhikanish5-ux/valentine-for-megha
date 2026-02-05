@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Megha 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+    .card {
+      background: rgba(255,255,255,0.15);
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 360px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      transition: all 0.5s ease;
+    }
+    h1 {
+      margin-bottom: 10px;
+    }
+    p {
+      margin-bottom: 25px;
+      font-size: 1.1em;
+    }
+    button {
+      padding: 12px 24px;
+      border-radius: 30px;
+      margin: 0 10px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: all 0.4s ease;
+    }
+    .yes {
+      background: white;
+      color: #ff4f81;
+    }
+    .no {
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+      position: relative;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card" id="question">
+    <h1>💖 Megha 💖</h1>
+    <p>Will you be my Valentine?</p>
+    <button class="yes" onclick="yesAccepted()">YES 💕</button>
+    <button class="no" id="noBtn">NO 🙃</button>
+  </div>
+
+  <div class="card hidden" id="yesPage">
+    <h1>🎉 Yayyy! 🎉</h1>
+    <p>Megha, it’s officially a date 💖</p>
+    <p>I’ve already told WhatsApp 😌</p>
+  </div>
+
+  <script>
+    let hoverCount = 0;
+    const noBtn = document.getElementById("noBtn");
+
+    noBtn.addEventListener("mouseover", () => {
+      hoverCount++;
+
+      if (hoverCount < 4) {
+        const x = Math.random() * (window.innerWidth - 120);
+        const y = Math.random() * (window.innerHeight - 60);
+        noBtn.style.position = "absolute";
+        noBtn.style.left = `${x}px`;
+        noBtn.style.top = `${y}px`;
+      } else {
+        noBtn.innerText = "OK YES 😳💕";
+        noBtn.classList.remove("no");
+        noBtn.classList.add("yes");
+        noBtn.onclick = yesAccepted;
+      }
+    });
+
+    function yesAccepted() {
+      document.getElementById("question").classList.add("hidden");
+      document.getElementById("yesPage").classList.remove("hidden");
+
+      const message = encodeURIComponent(
+        "YES 💖 I’m your Valentine now 😌💘"
+      );
+      const phoneNumber = "918218853440";
+      const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
+
+      setTimeout(() => {
+        window.open(whatsappURL, "_blank");
+      }, 800);
+    }
+  </script>
+
+</body>
+</html>
